@@ -1,26 +1,186 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --bg: #f4f6fc;
+  --bg-alt: #eaeefa;
+  --surface: #ffffff;
+  --surface-tint: #eef1fa;
+  --border: #dde3f2;
+  --border-strong: #c3cce8;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --fg: #10142b;
+  --fg-muted: #4e5578;
+  --fg-faint: #8891b5;
+
+  --primary: #2f5fff;
+  --primary-dark: #1f44d6;
+  --primary-soft: #e3ebff;
+  --on-primary: #ffffff;
+
+  --success: #157a44;
+  --danger: #c23b3b;
+  --warning: #b8790a;
+
+  --accent-violet: #7c4fe0;
+  --accent-amber: #d98c0a;
+  --accent-teal: #0f9488;
+  --accent-rose: #c23468;
+
   --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-jakarta);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@theme inline {
+  --color-bg: var(--bg);
+  --color-fg: var(--fg);
+  --font-sans: var(--font-geist-sans);
+  --font-display: var(--font-jakarta);
+  --font-mono: var(--font-geist-mono);
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
   }
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Node/signal field — faint connected-dot backdrop, axon-inspired */
+.node-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(
+      color-mix(in srgb, var(--border-strong) 70%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--border-strong) 70%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 42px 42px;
+  mask-image: radial-gradient(60% 65% at 75% 30%, black 0%, transparent 72%);
+}
+
+/* Flow canvas connector line */
+.flow-line {
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+  fill: none;
+}
+.flow-line-active {
+  stroke: var(--primary);
+  stroke-width: 1.5;
+  fill: none;
+  stroke-dasharray: 4 4;
+}
+
+/* Status pills used inside mock product UI */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  padding: 2px 9px;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.6;
+  white-space: nowrap;
+}
+.pill-success {
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+  color: var(--success);
+}
+.pill-warning {
+  background: color-mix(in srgb, var(--warning) 16%, transparent);
+  color: var(--warning);
+}
+.pill-danger {
+  background: color-mix(in srgb, var(--danger) 14%, transparent);
+  color: var(--danger);
+}
+.pill-neutral {
+  background: var(--surface-tint);
+  color: var(--fg-muted);
+}
+
+/* Category tag chips */
+.tag-blue {
+  background: color-mix(in srgb, var(--primary) 10%, white);
+  color: var(--primary);
+  border-color: color-mix(in srgb, var(--primary) 24%, transparent);
+}
+.tag-violet {
+  background: color-mix(in srgb, var(--accent-violet) 10%, white);
+  color: var(--accent-violet);
+  border-color: color-mix(in srgb, var(--accent-violet) 24%, transparent);
+}
+.tag-teal {
+  background: color-mix(in srgb, var(--accent-teal) 10%, white);
+  color: var(--accent-teal);
+  border-color: color-mix(in srgb, var(--accent-teal) 24%, transparent);
+}
+.tag-amber {
+  background: color-mix(in srgb, var(--accent-amber) 10%, white);
+  color: var(--accent-amber);
+  border-color: color-mix(in srgb, var(--accent-amber) 24%, transparent);
+}
+
+/* Soft glow behind the hero workflow canvas */
+.canvas-glow {
+  position: absolute;
+  inset: -10%;
+  background: radial-gradient(
+      40% 50% at 70% 30%,
+      color-mix(in srgb, var(--primary) 16%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      30% 40% at 30% 70%,
+      color-mix(in srgb, var(--accent-violet) 12%, transparent),
+      transparent 70%
+    );
+  pointer-events: none;
 }
